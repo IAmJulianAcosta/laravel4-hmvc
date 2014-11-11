@@ -74,7 +74,7 @@ class Hmvc {
      * @param  array  $parameters
      * @return mixed
      */
-    public function invoke($uri, $method, $parameters = array(), $returnOriginalResponse)
+    public function invoke($uri, $method, $parameters = array(), $returnOriginalResponse = false)
     {
         // Request URI.
         $uri = '/'.ltrim($uri, '/');
@@ -203,7 +203,7 @@ class Hmvc {
      *
      * @return mixed
      */
-    public function __call($method, $parameters = array(), $returnOriginalResponse = false)
+    public function __call($method, $parameters = array())
     {
         if (in_array($method, array('get', 'patch', 'post', 'put', 'delete')))
         {
@@ -217,7 +217,7 @@ class Hmvc {
                 return $this->invokeRemote($uri, $method, $parameters);
             }
 
-            return $this->invoke($uri, $method, $parameters, $returnOriginalResponse);
+            return $this->invoke($uri, $method, $parameters, false);
         }
     }
 
