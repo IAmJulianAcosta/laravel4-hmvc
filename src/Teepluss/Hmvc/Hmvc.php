@@ -74,7 +74,7 @@ class Hmvc {
      * @param  array  $parameters
      * @return mixed
      */
-    public function invoke($uri, $method, $parameters = array())
+    public function invoke($uri, $method, $parameters = array(), $returnOriginalResponse)
     {
         // Request URI.
         $uri = '/'.ltrim($uri, '/');
@@ -100,7 +100,7 @@ class Hmvc {
             // Dispatch request.
             $dispatch = $this->router->dispatch($request);
             
-            if (array_key_exists ("getOriginalResponse", $parameters) && $parameters ["getOriginalResponse"]) 
+            if ($returnOriginalResponse) 
             {
                 return $dispatch;
             }
@@ -203,7 +203,7 @@ class Hmvc {
      *
      * @return mixed
      */
-    public function __call($method, $parameters = array())
+    public function __call($method, $parameters = array(), $returnOriginalResponse = false)
     {
         if (in_array($method, array('get', 'patch', 'post', 'put', 'delete')))
         {
@@ -217,7 +217,7 @@ class Hmvc {
                 return $this->invokeRemote($uri, $method, $parameters);
             }
 
-            return $this->invoke($uri, $method, $parameters);
+            return $this->invoke($uri, $method, $parameters, $returnOriginalResponse);
         }
     }
 
