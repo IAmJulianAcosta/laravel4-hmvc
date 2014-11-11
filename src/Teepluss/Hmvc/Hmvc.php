@@ -99,7 +99,11 @@ class Hmvc {
 
             // Dispatch request.
             $dispatch = $this->router->dispatch($request);
-
+            
+            if (array_key_exists ("getOriginalResponse", $parameters) && $parameters ["getOriginalResponse"]) 
+            {
+                return $dispatch;
+            }
             if (method_exists($dispatch, 'getOriginalContent'))
             {
                 $response = $dispatch->getOriginalContent();
